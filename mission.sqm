@@ -16,11 +16,11 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=4;
+		nextID=6;
 	};
 	class Camera
 	{
-		pos[]={7878.1494,294.89636,14589.157};
+		pos[]={7858.4023,351.02936,14492.15};
 		dir[]={0.34665561,-0.46225837,0.81625122};
 		up[]={0.18071143,0.88672578,0.4255116};
 		aside[]={0.92048699,8.0396421e-007,-0.39092332};
@@ -5857,7 +5857,7 @@ class Mission
 					name="Parking6_spawn";
 					type="Empty";
 					colorName="ColorBlack";
-					angle=215.59125;
+					angle=215.59123;
 					id=427;
 				};
 				class Item12
