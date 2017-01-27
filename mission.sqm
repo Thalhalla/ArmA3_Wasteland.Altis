@@ -8,7 +8,7 @@ class EditorData
 	toggles=6;
 	class ItemIDProvider
 	{
-		nextID=433;
+		nextID=439;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=2;
+		nextID=4;
 	};
 	class Camera
 	{
-		pos[]={14517.74,28.344734,5794.0269};
-		dir[]={-0.029113516,-0.33855194,0.94050032};
-		up[]={-0.01047504,0.94094759,0.33839113};
-		aside[]={0.99952447,4.7344656e-008,0.030940793};
+		pos[]={7878.1494,294.89636,14589.157};
+		dir[]={0.34665561,-0.46225837,0.81625122};
+		up[]={0.18071143,0.88672578,0.4255116};
+		aside[]={0.92048699,8.0396421e-007,-0.39092332};
 	};
 };
 binarizationWanted=0;
@@ -98,7 +98,7 @@ class Mission
 {
 	class Intel
 	{
-		briefingName="A3Wasteland Altis v1.3b"; // it would be great if you could keep "A3" in the name, like "ABC A3Wasteland" instead of "ABC Wasteland" :)
+		briefingName="A3Wasteland Altis v1.3b";
 		overviewText="Wasteland survival sandbox by Team Wasteland - visit A3Wasteland.com for more details";
 		resistanceWest=0;
 		timeOfChanges=3e+038;
@@ -726,8 +726,31 @@ class Mission
 					{
 						isPlayable=1;
 					};
-					id=39;
-					type="B_engineer_F";
+					id=433;
+					type="B_soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.95999998;
+								};
+							};
+						};
+						nAttributes=1;
+					};
 				};
 			};
 			class Attributes
@@ -872,7 +895,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={14502.5,8.68466,5845.0498};
+						position[]={14502.5,8.684659,5845.0498};
 					};
 					side="West";
 					flags=4;
@@ -880,8 +903,32 @@ class Mission
 					{
 						isPlayable=1;
 					};
-					id=49;
-					type="B_engineer_F";
+					id=436;
+					type="B_soldier_AA_F";
+					atlOffset=-9.5367432e-007;
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.95999998;
+								};
+							};
+						};
+						nAttributes=1;
+					};
 				};
 			};
 			class Attributes
@@ -1650,8 +1697,31 @@ class Mission
 					{
 						isPlayable=1;
 					};
-					id=99;
-					type="O_engineer_F";
+					id=434;
+					type="O_Soldier_LAT_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=0.98000002;
+								};
+							};
+						};
+						nAttributes=1;
+					};
 				};
 			};
 			class Attributes
@@ -1804,8 +1874,31 @@ class Mission
 					{
 						isPlayable=1;
 					};
-					id=109;
-					type="O_engineer_F";
+					id=437;
+					type="O_Soldier_AA_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1;
+								};
+							};
+						};
+						nAttributes=1;
+					};
 				};
 			};
 			class Attributes
@@ -2566,7 +2659,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={14525.5,5.0000811,5849.0498};
+						position[]={14525.5,5.0000815,5849.0498};
 					};
 					side="Independent";
 					flags=4;
@@ -2574,8 +2667,32 @@ class Mission
 					{
 						isPlayable=1;
 					};
-					id=159;
-					type="I_engineer_F";
+					id=435;
+					type="I_Soldier_LAT_F";
+					atlOffset=4.7683716e-007;
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.05;
+								};
+							};
+						};
+						nAttributes=1;
+					};
 				};
 			};
 			class Attributes
@@ -2728,8 +2845,31 @@ class Mission
 					{
 						isPlayable=1;
 					};
-					id=169;
-					type="I_engineer_F";
+					id=438;
+					type="I_Soldier_AA_F";
+					class CustomAttributes
+					{
+						class Attribute0
+						{
+							property="pitch";
+							expression="_this setpitch _value;";
+							class Value
+							{
+								class data
+								{
+									class type
+									{
+										type[]=
+										{
+											"SCALAR"
+										};
+									};
+									value=1.04;
+								};
+							};
+						};
+						nAttributes=1;
+					};
 				};
 			};
 			class Attributes
@@ -5620,7 +5760,7 @@ class Mission
 					name="Parking1_spawn";
 					type="Empty";
 					colorName="ColorBlack";
-					angle=36.060291;
+					angle=36.060287;
 					id=417;
 				};
 				class Item2
@@ -5717,7 +5857,7 @@ class Mission
 					name="Parking6_spawn";
 					type="Empty";
 					colorName="ColorBlack";
-					angle=215.59126;
+					angle=215.59125;
 					id=427;
 				};
 				class Item12
@@ -5755,7 +5895,7 @@ class Mission
 					name="Parking8_spawn";
 					type="Empty";
 					colorName="ColorBlack";
-					angle=200.78294;
+					angle=200.78293;
 					id=431;
 				};
 			};
