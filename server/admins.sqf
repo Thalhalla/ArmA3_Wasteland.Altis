@@ -41,7 +41,8 @@ else
 	// Server Owners: access to everything, including god mode, money, guns, and vehicles
 	serverOwners = compileFinal str
 	[
-		// Put player UIDs here
+		"76561198048566181", // Jigsaw
+		"76561198048688538" // Thoth
 	];
 
 	/********************************************************/

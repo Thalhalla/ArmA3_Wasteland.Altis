@@ -112,5 +112,4 @@ if (hasInterface || isServer) then
 ];
 
 // Add Earplugs
-//Thalhalla Additions
 execVM "addons\scripts\NRE_earplugs.sqf";

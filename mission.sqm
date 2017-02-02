@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=6;
+		nextID=14;
 	};
 	class Camera
 	{
-		pos[]={7858.4023,351.02936,14492.15};
-		dir[]={0.34665561,-0.46225837,0.81625122};
-		up[]={0.18071143,0.88672578,0.4255116};
-		aside[]={0.92048699,8.0396421e-007,-0.39092332};
+		pos[]={7876.2363,301.24982,14589.827};
+		dir[]={0.22542331,-0.57468861,0.786789};
+		up[]={0.15829258,0.81835449,0.55248439};
+		aside[]={0.96137816,7.7293953e-007,-0.27544466};
 	};
 };
 binarizationWanted=0;
@@ -5857,7 +5857,7 @@ class Mission
 					name="Parking6_spawn";
 					type="Empty";
 					colorName="ColorBlack";
-					angle=215.59123;
+					angle=215.59117;
 					id=427;
 				};
 				class Item12
