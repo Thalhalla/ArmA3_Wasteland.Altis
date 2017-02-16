@@ -5,10 +5,10 @@ class EditorData
 	angleGridStep=0.2617994;
 	scaleGridStep=0.1;
 	autoGroupingDist=10;
-	toggles=6;
+	toggles=5;
 	class ItemIDProvider
 	{
-		nextID=439;
+		nextID=478;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=14;
+		nextID=8;
 	};
 	class Camera
 	{
-		pos[]={7876.2363,301.24982,14589.827};
-		dir[]={0.22542331,-0.57468861,0.786789};
-		up[]={0.15829258,0.81835449,0.55248439};
-		aside[]={0.96137816,7.7293953e-007,-0.27544466};
+		pos[]={16003.103,97.531044,9346.752};
+		dir[]={0.79514724,-0.40436399,0.45209476};
+		up[]={0.35154581,0.9145714,0.19987664};
+		aside[]={0.49430224,5.4510019e-007,-0.86937845};
 	};
 };
 binarizationWanted=0;
@@ -38,13 +38,20 @@ addons[]=
 	"A3_Structures_F_Civ_Market",
 	"A3_Structures_F_Civ_Camping",
 	"A3_Structures_F_EPC_Civ_Accessories",
-	"A3_Structures_F_System"
+	"A3_Structures_F_System",
+	"A3_Rocks_F_Blunt",
+	"A3_Rocks_F_Water",
+	"A3_Structures_F_Naval_RowBoats",
+	"A3_Structures_F_Wrecks",
+	"A3_Rocks_F",
+	"A3_Structures_F_Civ_Lamps",
+	"A3_Structures_F_EPB_Civ_Camping"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=6;
+		items=9;
 		class Item0
 		{
 			className="A3_Characters_F";
@@ -87,6 +94,27 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="http://www.arma3.com";
 		};
+		class Item6
+		{
+			className="A3_Rocks_F";
+			name="Arma 3 - Rocks and Stones";
+			author="Bohemia Interactive";
+			url="http://www.arma3.com";
+		};
+		class Item7
+		{
+			className="A3_Structures_F_Wrecks";
+			name="Arma 3 - Vehicle Wrecks";
+			author="Bohemia Interactive";
+			url="http://www.arma3.com";
+		};
+		class Item8
+		{
+			className="A3_Structures_F_EPB";
+			name="Arma 3 Adapt Episode - Buildings and Structures";
+			author="Bohemia Interactive";
+			url="http://www.arma3.com";
+		};
 	};
 };
 randomSeed=3783014;
@@ -117,7 +145,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=259;
+		items=287;
 		class Item0
 		{
 			dataType="Group";
@@ -4848,7 +4876,7 @@ class Mission
 			fillName="DiagGrid";
 			a=60;
 			b=50;
-			angle=113.57082;
+			angle=113.57079;
 			id=349;
 		};
 		class Item192
@@ -5908,6 +5936,470 @@ class Mission
 			name="CustomLayer";
 			id=432;
 			atlOffset=185.97;
+		};
+		class Item259
+		{
+			dataType="Marker";
+			position[]={13582,1910825.5,12151};
+			name="TERRITORY_MAK_ISLAND";
+			markerType="RECTANGLE";
+			type="Empty";
+			colorName="ColorYellow";
+			fillName="DiagGrid";
+			a=300;
+			b=120;
+			angle=301.42499;
+			id=439;
+			atlOffset=1910809.9;
+		};
+		class Item260
+		{
+			dataType="Marker";
+			position[]={20927.5,1911329.5,14689};
+			name="TERRITORY_LIMNI_MARSH";
+			markerType="RECTANGLE";
+			type="Empty";
+			colorName="ColorYellow";
+			fillName="DiagGrid";
+			a=175;
+			b=175;
+			angle=89.827919;
+			id=440;
+			atlOffset=1911328.9;
+		};
+		class Item261
+		{
+			dataType="Marker";
+			position[]={14377.454,1917977.5,22037.85};
+			name="TERRITORY_FRINI_WDS";
+			markerType="RECTANGLE";
+			type="Empty";
+			colorName="ColorYellow";
+			fillName="DiagGrid";
+			a=200;
+			b=200;
+			angle=88.515999;
+			id=441;
+			atlOffset=1917911.9;
+		};
+		class Item262
+		{
+			dataType="Marker";
+			position[]={6188.7109,1917977.5,16241.428};
+			name="TERRITORY_KRE_FACT";
+			markerType="RECTANGLE";
+			type="Empty";
+			colorName="ColorYellow";
+			fillName="DiagGrid";
+			a=180;
+			b=100;
+			angle=178.13199;
+			id=442;
+			atlOffset=1917934.5;
+		};
+		class Item263
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16193.5,-3.0803556,9477.5};
+				angles[]={0,3.5932896,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=450;
+			type="Land_BluntRock_monolith";
+			atlOffset=-8.3740845;
+		};
+		class Item264
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16198.5,8.0134048,9485.5};
+				angles[]={0.031964213,0.053745039,0.019150779};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=451;
+			type="Land_BluntRock_apart";
+			atlOffset=0.98834229;
+		};
+		class Item265
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16176,-2.9667873,9449};
+				angles[]={4.6968193,4.699152,1.0162119};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=453;
+			type="Land_BluntRock_wallV";
+			atlOffset=-14.868792;
+		};
+		class Item266
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16127.5,-10.966787,9510};
+				angles[]={1.4965608,4.8136263,5.3553305};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=454;
+			type="Land_BluntRock_wallV";
+			atlOffset=-26.943737;
+		};
+		class Item267
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16116,8.8401012,9493.5};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=455;
+			type="Land_BluntRock_spike";
+			atlOffset=11.673903;
+		};
+		class Item268
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16155.5,15.02641,9489};
+				angles[]={1.2516674,5.6214814,5.8972878};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=458;
+			type="Land_BluntRock_wallH";
+			atlOffset=8.7890148;
+		};
+		class Item269
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16180.5,21.033213,9466};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=459;
+			type="Land_BluntRock_wallV";
+			atlOffset=3.4382803;
+		};
+		class Item270
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16100.5,-3.9735899,9473.5};
+				angles[]={6.0936337,3.6851015,0};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=460;
+			type="Land_BluntRock_wallH";
+			atlOffset=1.6304436;
+		};
+		class Item271
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16132,1.9196444,9498.5};
+				angles[]={0,4.1834545,0};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=461;
+			type="Land_BluntRock_monolith";
+			atlOffset=1.2672958;
+		};
+		class Item272
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16152.5,6.4387798,9529};
+				angles[]={6.2350621,0,0.1488529};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=462;
+			type="Land_BluntStones_erosion";
+			atlOffset=0.24089146;
+		};
+		class Item273
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16160,5.5134048,9432};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=463;
+			type="Land_BluntRock_apart";
+			atlOffset=8.9422913;
+		};
+		class Item274
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16144.5,-7.9735899,9434.5};
+				angles[]={0,1.3436031,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=464;
+			type="Land_BluntRock_wallH";
+			atlOffset=-0.64477348;
+		};
+		class Item275
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16087,-22.190121,9449.5};
+				angles[]={0,2.0267031,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=465;
+			type="Land_W_sharpRock_monolith";
+			atlOffset=-7.618679;
+		};
+		class Item276
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16110.5,-25.973591,9412};
+				angles[]={0,3.9200246,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=466;
+			type="Land_BluntRock_wallH";
+			atlOffset=-12.942085;
+		};
+		class Item277
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16189.363,1.0102332,9497.8916};
+				angles[]={6.061554,0,0.27794752};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=467;
+			type="Land_RowBoat_V1_F";
+		};
+		class Item278
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16185.38,3.8257492,9507.251};
+				angles[]={5.7486691,5.5717564,0.27794752};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+			};
+			id=468;
+			type="Land_RowBoat_V2_F";
+			atlOffset=0.11648464;
+		};
+		class Item279
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16166,1.0596207,9502};
+				angles[]={0,4.5022583,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=469;
+			type="Land_UWreck_FishingBoat_F";
+		};
+		class Item280
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16034.5,-21.797157,9418.5};
+				angles[]={6.0986428,1.331576,6.183517};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=470;
+			type="Land_Wreck_Traw2_F";
+		};
+		class Item281
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16050,-20.878761,9425};
+				angles[]={6.1967349,0,0.10494626};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=471;
+			type="Land_Wreck_Traw_F";
+		};
+		class Item282
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16117.5,1.5134051,9425};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=472;
+			type="Land_BluntRock_apart";
+			atlOffset=11.917761;
+		};
+		class Item283
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16085,0.92326868,9454.5};
+			};
+			side="Empty";
+			class Attributes
+			{
+				createAsSimpleObject=1;
+			};
+			id=473;
+			type="Land_Small_Stone_01_F";
+			atlOffset=13.249882;
+		};
+		class Item284
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16182.5,8.2720299,9486};
+			};
+			side="Empty";
+			flags=1;
+			class Attributes
+			{
+			};
+			id=474;
+			type="Land_LampShabby_F";
+			atlOffset=6.5987158;
+		};
+		class Item285
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={16167.5,2.1620688,9506};
+			};
+			side="Empty";
+			class Attributes
+			{
+			};
+			id=475;
+			type="Land_Camping_Light_F";
+			atlOffset=2.2853637;
+		};
+		class Item286
+		{
+			dataType="Marker";
+			position[]={16131,-5.3485685e-014,9460.5};
+			name="TERRITORY_SMUGGLERS_COVE";
+			markerType="RECTANGLE";
+			type="Empty";
+			colorName="ColorYellow";
+			fillName="DiagGrid";
+			a=50;
+			b=110;
+			angle=60.983997;
+			id=477;
+			atlOffset=13.349892;
 		};
 	};
 };

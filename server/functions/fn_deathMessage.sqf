@@ -17,7 +17,7 @@ params
 ];
 
 scopeName "fn_deathMessage";
-
+_distance = floor (_victim distance _killer);
 if (_mode isEqualTo 0) then
 {
 	private _victimName = _victim getVariable ["A3W_handleDisconnect_name", ""];
@@ -71,7 +71,7 @@ else
 	{
 		case "headshot": // enemy player headshot with A3W_headshotNoRevive = 1;
 		{
-			if (_killer != "") then { format ["%1 headshot %2", _killer, _victim] }
+			if (_killer != "") then { format ["%1 headshot %2 from a distance of %3 meters", _killer, _victim,_distance] }
 			else                    { format ["%1 was headshot", _victim] } // not supposed to happen, but just in case
 		};
 
@@ -97,7 +97,7 @@ else
 				case (_killer != ""): 
 				{
 					if (_friendlyFire) then { format ["%1 teamkilled %2", _killer, _victim] } // destroyed friendly vehicle, crashed vehicle with friendlies on board
-					else                    { format ["%1 killed %2", _killer, _victim] } // destroyed enemy vehicle
+					else                    { format ["%1 killed %2 at a distance of %3 meters", _killer, _victim,_distance] } // destroyed enemy vehicle
 				};
 				default
 				{
