@@ -16,7 +16,7 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=8;
+		nextID=10;
 	};
 	class Camera
 	{
@@ -126,7 +126,7 @@ class Mission
 {
 	class Intel
 	{
-		briefingName="A3Wasteland Altis v1.3b";
+		briefingName="A3Wasteland Altis v1.3b-PDG01";
 		overviewText="Wasteland survival sandbox by Team Wasteland - visit A3Wasteland.com for more details";
 		resistanceWest=0;
 		timeOfChanges=3e+038;
@@ -5885,7 +5885,7 @@ class Mission
 					name="Parking6_spawn";
 					type="Empty";
 					colorName="ColorBlack";
-					angle=215.59117;
+					angle=215.59116;
 					id=427;
 				};
 				class Item12
@@ -5963,7 +5963,7 @@ class Mission
 			fillName="DiagGrid";
 			a=175;
 			b=175;
-			angle=89.827919;
+			angle=89.827911;
 			id=440;
 			atlOffset=1911328.9;
 		};
@@ -5993,7 +5993,7 @@ class Mission
 			fillName="DiagGrid";
 			a=180;
 			b=100;
-			angle=178.13199;
+			angle=178.13197;
 			id=442;
 			atlOffset=1917934.5;
 		};
@@ -6254,6 +6254,7 @@ class Mission
 			};
 			id=467;
 			type="Land_RowBoat_V1_F";
+			atlOffset=0.0067384839;
 		};
 		class Item278
 		{
