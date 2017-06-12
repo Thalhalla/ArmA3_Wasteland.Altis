@@ -19,6 +19,85 @@ player createDiarySubject ["credits", "Credits"];
 
 player createDiaryRecord ["changelog",
 [
+"v1.3c",
+"
+<br/>[Added] Jets DLC
+<br/>[Added] Aircraft carrier on Stratis
+<br/>[Added] Resupply trucks on Altis and Stratis
+<br/>[Added] Driver assist
+<br/>[Changed] Aircraft prices
+<br/>[Changed] Blocked explosives near parking and storage
+<br/>[Changed] Migrated saving system from extDB2 to extDB3
+<br/>[Fixed] Fast revive exploits
+<br/>[Fixed] Could perform your duty after being revived
+<br/>[Fixed] Other minor changes and fixes
+"
+]];
+
+player createDiaryRecord ["changelog",
+[
+"v1.3b",
+"
+<br/>[Added] Private parking
+<br/>[Added] Private storage
+<br/>[Added] Vehicle ownership
+<br/>[Added] Vehicle locking
+<br/>[Added] Vehicle selling
+<br/>[Added] Mine saving
+<br/>[Added] Resupply trucks
+<br/>[Added] CH View Distance
+<br/>[Added] Map legend
+<br/>[Added] UAV side persistence
+<br/>[Added] headless server cleanup
+<br/>[Changed] Static designators now available to indies
+<br/>[Changed] Some store prices
+<br/>[Fixed] Many other minor changes and fixes
+"
+]];
+
+player createDiaryRecord ["changelog",
+[
+"v1.3",
+"
+<br/>[Added] Tanoa version
+<br/>[Added] Apex content on dev/preview branches
+<br/>[Added] Sticky explosive charges
+br/> [Added] Heavy towing and airlifting
+<br/>[Added] Load dragged injured friendly in vehicles
+<br/>[Added] Eject loaded injured friendly from vehicles
+<br/>[Added] Autostabilize when loaded in medical vehicle
+<br/>[Added] 'Finish off' action to slay injured enemies
+<br/>[Added] Improved injured unit detection
+<br/>[Added] Scoreboard persistence option for servers
+<br/>[Added] Fatal PvP headshots option for servers
+<br/>[Added] Custom death messages option for servers
+<br/>[ADded] Auto-center heli turret on manual fire
+<br/>[Added] UAV side persistence
+<br/>[Added] More textures for some vehicles in store
+<br/>[Added] Abandoned quadcopter cleanup
+<br/>[Added] More admin menu logging
+<br/>[Changed] Reduced heli missile damage
+<br/>[Changed] Improved mission crate loot
+<br/>[Changed] Vest armor values in general store
+<br/>[Changed] Increased Mag Repack flexibility
+<br/>[Changed] Toggled off autonomous on static designators
+<br/>[Changed] Disabled rain due to weather desync
+<br/>[Fixed] Engineer with toolkit can now always repair
+<br/>[Fixed] Improved missile lock-on
+<br/>[Fixed] Improvements to kill tracking system
+<br/>[Fixed] Items and money not dropping on injured logout
+<br/>[Fixed] Combat log timer not resetting on death
+<br/>[Fixed] Player not always ejected on injury
+<br/>[Fixed] Double kill/death count
+<br/>[Fixed] Spawn cooldowns resetting on rejoin
+<br/>[Fixed] Striders spawning without laser batteries
+<br/>[Fixed] Disabled rain due to syncing issues
+<br/>[Fixed] Various minor bugfixes and optimizations
+"
+]];
+
+player createDiaryRecord ["changelog",
+[
 "v1.2b",
 "
 <br/>[Added] Scoreboard scrolling via mousewheel
@@ -364,6 +443,7 @@ player createDiaryRecord ["credits",
 <br/>	* Austerror (GitHub)
 <br/>	* AWA (OpenDayZ)
 <br/>	* bodybag (Gameaholic.se)
+<br/>	* Champ-1 (CHVD)
 <br/>	* code34 (iniDBI)
 <br/>	* Das Attorney (Jump MF)
 <br/>	* Ed! (404Games forums)

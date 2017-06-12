@@ -28,6 +28,11 @@ X_Server = false;
 X_Client = false;
 X_JIP = false;
 
+CHVD_allowNoGrass = false;
+CHVD_allowTerrain = false; // terrain option has been disabled out from the menu due to terrible code, this variable has currently no effect
+CHVD_maxView = 3000; // Set maximum view distance (default: 12000)
+CHVD_maxObj = 3000; // Set maximimum object view distance (default: 12000)
+
 // versionName = ""; // Set in STR_WL_WelcomeToWasteland in stringtable.xml
 
 if (isServer) then { X_Server = true };
@@ -86,10 +91,22 @@ if (isServer) then
 if (hasInterface || isServer) then
 {
 	//init 3rd Party Scripts
+	[] execVM "addons\parking\functions.sqf";
+	[] execVM "addons\storage\functions.sqf";
+	[] execVM "addons\vactions\functions.sqf";
 	[] execVM "addons\R3F_ARTY_AND_LOG\init.sqf";
 	[] execVM "addons\proving_ground\init.sqf";
 	[] execVM "addons\JumpMF\init.sqf";
-	[] execVM "addons\outlw_magRepack\MagRepack_init.sqf";
+	[] execVM "addons\outlw_magrepack\MagRepack_init.sqf";
 	[] execVM "addons\lsd_nvg\init.sqf";
+	[] execVM "addons\stickyCharges\init.sqf";
 	if (isNil "drn_DynamicWeather_MainThread") then { drn_DynamicWeather_MainThread = [] execVM "addons\scripts\DynamicWeatherEffects.sqf" };
 };
+
+// Remove line drawings from map
+(createTrigger ["EmptyDetector", [0,0,0], false]) setTriggerStatements
+[
+	"!triggerActivated thisTrigger", 
+	"thisTrigger setTriggerTimeout [30,30,30,false]",
+	"{if (markerShape _x == 'POLYLINE') then {deleteMarker _x}} forEach allMapMarkers"
+];

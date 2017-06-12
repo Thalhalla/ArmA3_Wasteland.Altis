@@ -88,6 +88,7 @@ _displayTerritoryActivity =
 _survivalSystem = ["A3W_survivalSystem"] call isConfigOn;
 _unlimitedStamina = ["A3W_unlimitedStamina"] call isConfigOn;
 _atmEnabled = ["A3W_atmEnabled"] call isConfigOn;
+_disableUavFeed = ["A3W_disableUavFeed"] call isConfigOn;
 
 private ["_mapCtrls", "_mapCtrl"];
 _ui = displayNull;
@@ -124,6 +125,7 @@ while {true} do
 		{
 			// Gone up. Green flash
 			_healthTextColor = "#17FF17";
+			if (!isNil "BIS_HitCC" && {ppEffectEnabled BIS_HitCC}) then { BIS_HitCC ppEffectEnable false }; // fix for permanent red borders due to fire damage
 		};
 	};
 
@@ -178,18 +180,21 @@ while {true} do
 	{
 		if (player != vehicle player) then
 		{
-			_vehicle = assignedVehicle player;
+			_vehicle = vehicle player;
 
 			{
-				_icon = switch (true) do
+				if (alive _x) then
 				{
-					case (driver _vehicle == _x): { "client\icons\driver.paa" };
-					case (gunner _vehicle == _x): { "client\icons\gunner.paa" };
-					default                       { "client\icons\cargo.paa" };
-				};
+					_icon = switch (true) do
+					{
+						case (driver _vehicle == _x): { "client\icons\driver.paa" };
+						case (gunner _vehicle == _x): { "client\icons\gunner.paa" };
+						default                       { "client\icons\cargo.paa" };
+					};
 
-				_tempString = format ["%1 %2 <img image='%3'/><br/>", _tempString, name _x, _icon];
-				_yOffset = _yOffset + 0.04;
+					_tempString = format ["%1 %2 <img image='%3'/><br/>", _tempString, name _x, _icon];
+					_yOffset = _yOffset + 0.04;
+				};
 			} forEach crew _vehicle;
 		};
 	};
@@ -307,6 +312,34 @@ while {true} do
 				};
 			};
 		} forEach _mapCtrls;
+	};
+
+	// Improve revealing and aimlocking of targetted vehicles
+	{
+		if (!isNull _x) then
+		{
+			if ((group player) knowsAbout _x < 4) then
+			{
+				(group player) reveal [_x, 4];
+			};
+		};
+	} forEach [cursorTarget, cursorObject];
+
+	if (_disableUavFeed && shownUavFeed) then
+	{
+		showUavFeed false;
+	};
+
+	// override no-grass exploits
+	if (getTerrainGrid != 10) then
+	{
+		setTerrainGrid 10;
+	};
+
+	// fix for disappearing chat
+	if (!shownChat && isNull findDisplay 49) then
+	{
+		showChat true;
 	};
 
 	uiSleep 1;

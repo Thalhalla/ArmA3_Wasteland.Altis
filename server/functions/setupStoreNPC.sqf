@@ -52,6 +52,7 @@ if (hasInterface) then
 	_npc addAction ["<img image='client\icons\money.paa'/> Sell crate", "client\systems\selling\sellCrateItems.sqf", [false, false, true], 0.99, false, true, "", STORE_ACTION_CONDITION + " && " + SELL_CRATE_CONDITION];
 	_npc addAction ["<img image='client\icons\money.paa'/> Sell contents", "client\systems\selling\sellCrateItems.sqf", [], 0.98, false, true, "", STORE_ACTION_CONDITION + " && " + SELL_CONTENTS_CONDITION];
 	_npc addAction ["<img image='client\icons\money.paa'/> Sell last vehicle contents", "client\systems\selling\sellVehicleItems.sqf", [], 0.97, false, true, "", STORE_ACTION_CONDITION + " && " + SELL_VEH_CONTENTS_CONDITION];
+	_npc addAction ["<img image='client\icons\money.paa'/> Sell last vehicle", "client\systems\selling\sellVehicle.sqf", [], 0.96, false, true, "", STORE_ACTION_CONDITION + " && " + SELL_VEH_CONTENTS_CONDITION];
 };
 
 if (isServer) then
@@ -62,24 +63,16 @@ if (isServer) then
 
 	_npc setVariable ["storeNPC_nearestBuilding", netId _building, true];
 
-	_facesCfg = configFile >> "CfgFaces" >> "Man_A3";
 	_faces = [];
 
-	for "_i" from 0 to (count _facesCfg - 1) do
 	{
-		_faceCfg = _facesCfg select _i;
-
-		_faceTex = toArray getText (_faceCfg >> "texture");
-		_faceTex resize 1;
-		_faceTex = toString _faceTex;
-
-		if (_faceTex == "\") then
+		if (getText (_x >> "DLC") == "" && !(((getText (_x >> "texture")) select [0,1]) in ["","#"])) then
 		{
-			_faces pushBack configName _faceCfg;
+			_faces pushBack _x;
 		};
-	};
+	} forEach ("true" configClasses (configFile >> "CfgFaces" >> "Man_A3"));
 
-	_face = _faces call BIS_fnc_selectRandom;
+	_face = configName (_faces call BIS_fnc_selectRandom);
 	_npc setFace _face;
 	_npc setVariable ["storeNPC_face", _face, true];
 }
@@ -103,9 +96,14 @@ if (isNil "_building" || {isNull _building}) then
 	if !(_building isKindOf "Land_i_Barracks_V1_F") then { _building = nearestBuilding _npc };
 };
 
-_building allowDamage true;
-for "_i" from 1 to 99 do { _building setHit ["glass_" + str _i, 1] }; // pre-break the windows so people can shoot thru them
-_building allowDamage false; // disable building damage
+_setDmg = [_building,
+{
+	_this allowDamage true;
+	for "_i" from 1 to 99 do { _this setHit ["glass_" + str _i, 1] }; // pre-break the windows so people can shoot thru them
+	_this allowDamage false; // disable building damage
+}] execFSM "call.fsm";
+
+waitUntil {completedFSM _setDmg};
 
 if (isServer) then
 {
@@ -124,15 +122,22 @@ if (isServer) then
 			_deskDirMod = _x select 2;
 
 			if (_npcPos < 0) then { _npcPos = 1e9 }; // fix for buildingPos Arma 3 v1.55 change
-
-			if (typeName _deskDirMod == "ARRAY" && {count _deskDirMod > 0}) then
+			
+			if (_deskDirMod isEqualType []) then
 			{
-				if (count _deskDirMod > 1) then
+				if (_deskDirMod isEqualTo []) then
 				{
-					_frontOffset = _deskDirMod select 1;
-				};
+					_deskDirMod = getDir _npc;
+				}
+				else
+				{
+					if (count _deskDirMod > 1) then
+					{
+						_frontOffset = _deskDirMod select 1;
+					};
 
-				_deskDirMod = _deskDirMod select 0;
+					_deskDirMod = _deskDirMod select 0;
+				};
 			};
 
 			_storeOwnerAppearance = [];
@@ -154,7 +159,7 @@ if (isServer) then
 					{
 						if (_classname != "") then
 						{
-							diag_log format ["Applying %1 as weapon for %2", _classname, _npcName];
+							//diag_log format ["Applying %1 as weapon for %2", _classname, _npcName];
 							_npc addWeapon _classname;
 						};
 					};
@@ -162,7 +167,7 @@ if (isServer) then
 					{
 						if (_classname != "") then
 						{
-							diag_log format ["Applying %1 as uniform for %2", _classname, _npcName];
+							//diag_log format ["Applying %1 as uniform for %2", _classname, _npcName];
 							_npc addUniform _classname;
 						};
 					};
@@ -170,7 +175,7 @@ if (isServer) then
 					{
 						if (_classname != "") then
 						{
-							diag_log format ["Applying %1 as switchMove for %2", _classname, _npcName];
+							//diag_log format ["Applying %1 as switchMove for %2", _classname, _npcName];
 							_npc switchMove _classname;
 						};
 					};
@@ -182,54 +187,26 @@ if (isServer) then
 
 			if (_bPos isEqualTo [0,0,0]) then
 			{
-				_bPos = getPosATL _npc;
+				_bPos = getPosASL _npc;
 			}
 			else
 			{
+				_bPos = AGLtoASL _bPos;
+
 				if (!isNil "_frontOffset") then
 				{
 					_bPos = _bPos vectorAdd ([[0, _frontOffset, 0], -_pDir] call BIS_fnc_rotateVector2D);
 				};
 
-				_npc setPosATL _bPos;
+				_npc setPosASL _bPos;
 			};
 
-			_desk = [_npc, _bPos, _pDir, _deskDirMod] call _createStoreFurniture;
-			_npc setVariable ["storeNPC_cashDesk", netId _desk, true];
-
 			sleep 1;
-
-			_bbNPC = boundingBoxReal _npc;
-			_bbDesk = boundingBoxReal _desk;
-			_bcNPC = boundingCenter _npc;
-			_bcDesk = boundingCenter _desk;
-
-			_npcHeightRel = (_desk worldToModel (getPosATL _npc)) select 2;
-
-			// must be done twice for the direction to set properly
-			for "_i" from 1 to 2 do
-			{
-				_npc attachTo
-				[
-					_desk,
-					[
-						0,
-
-						((_bcNPC select 1) - (_bcDesk select 1)) +
-						((_bbNPC select 1 select 1) - (_bcNPC select 1)) -
-						((_bbDesk select 1 select 1) - (_bcDesk select 1)) + 0.1,
-
-						_npcHeightRel
-					]
-				];
-				_npc setDir 180;
-			};
-
-			detach _npc;
-			sleep 1;
-
+			_npc setDir _deskDirMod;
 			_npc enableSimulation false;
-			_desk enableSimulationGlobal false;
+
+			_desk = [_npc, getPosASL _npc, _pDir, _deskDirMod] call _createStoreFurniture;
+			_npc setVariable ["storeNPC_cashDesk", netId _desk, true];
 		};
 	} forEach (call storeOwnerConfig);
 };
@@ -294,7 +271,7 @@ if (hasInterface) then
 				for "_i" from 1 to 2 do
 				{
 					_sellBox setVelocity [0,0,0];
-					_sellBox setVectorDirAndUp [[vectorDir _desk, -90] call BIS_fnc_rotateVector2D, [0,0,1]];
+					_sellBox setVectorDirAndUp [[vectorDir _desk, -90] call BIS_fnc_rotateVector2D, vectorUp _desk];
 					_sellBox setPosASL _deskOffset;
 					_boxPos = getPos _sellBox;
 

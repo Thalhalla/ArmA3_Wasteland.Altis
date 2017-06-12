@@ -23,7 +23,10 @@ _hitPoints = [];
 _hpDamage = getAllHitPointsDamage _veh;
 
 {
-	_hitPoints pushBack [_x, (_hpDamage select 2) select _forEachIndex];
+	if (_x != "") then
+	{
+		_hitPoints pushBack [_x, (_hpDamage select 2) select _forEachIndex];
+	};
 } forEach (_hpDamage select 0);
 
 _variables = [];
@@ -40,21 +43,70 @@ switch (true) do
 	};
 };
 
-_owner = _veh getVariable ["ownerUID", ""];
+private _variant = _veh getVariable ["A3W_vehicleVariant", ""];
 
-_doubleBSlash = (call A3W_savingMethod == "extDB");
+if (_variant != "") then
+{
+	_variables pushBack ["A3W_vehicleVariant", _variant];
+};
+
+private _resupplyTruck = _veh getVariable ["A3W_resupplyTruck", false];
+
+if (_resupplyTruck) then
+{
+	_variables pushBack ["A3W_resupplyTruck", true];
+};
+
+private _isUav = (round getNumber (configFile >> "CfgVehicles" >> _class >> "isUav") > 0);
+
+if (_isUav && side _veh in [BLUFOR,OPFOR,INDEPENDENT]) then
+{
+	_variables pushBack ["uavSide", str side _veh];
+};
+
+_owner = _veh getVariable ["ownerUID", ""];
+private _ownerName = _veh getVariable ["ownerName", ""];
+
+if (_ownerName != "") then
+{
+	_variables pushBack ["ownerName", toArray _ownerName];
+};
+
+private _locked = 1 max locked _veh; // default vanilla state is always 1, so we ignore 0's
 
 _textures = [];
-{
-	_tex = _x select 1;
+private _texturesVar = _veh getVariable ["A3W_objectTextures", []];
 
-	if (_doubleBSlash) then
+if (_texturesVar isEqualTypeAll "") then // TextureSource
+{
+	_textures = _texturesVar;
+}
+else // texture paths
+{
+	_doubleBSlash = (call A3W_savingMethod == "extDB");
+
+	private _addTexture =
 	{
-		_tex = (_tex splitString "\") joinString "\\";
+		_tex = _x select 1;
+
+		if (_doubleBSlash) then
+		{
+			_tex = (_tex splitString "\") joinString "\\";
+		};
+
+		[_textures, _tex, [_x select 0]] call fn_addToPairs;
 	};
 
-	[_textures, _tex, [_x select 0]] call fn_addToPairs;
-} forEach (_veh getVariable ["A3W_objectTextures", []]);
+	// vehicle has at least 2 random textures, save everything
+	if (count getArray (configFile >> "CfgVehicles" >> _class >> "textureList") >= 4) then
+	{
+		{ _x = [_forEachIndex, _x]; call _addTexture } forEach getObjectTextures _veh;
+	}
+	else // only save custom ones
+	{
+		_addTexture forEach _texturesVar;
+	};
+};
 
 _weapons = [];
 _magazines = [];
@@ -70,10 +122,10 @@ if (_class call fn_hasInventory) then
 	_backpacks = (getBackpackCargo _veh) call cargoToPairs;
 };
 
-// _turretMags and _turretMags3 are deprecated, leave empty
+// _turretMags is deprecated, leave empty
 _turretMags = []; // magazinesAmmo _veh;
-_turretMags2 = [];
-_turretMags3 = [];
+_turretMags2 = (magazinesAllTurrets _veh) select {_x select 0 != "FakeWeapon" && (_x select 0) select [0,5] != "Pylon"} apply {_x select [0,3]};
+_turretMags3 = _veh call fn_getPylonsAmmo;
 
 // deprecated
 /*
@@ -117,13 +169,6 @@ if (_hasDoorGuns) then
 	} forEach (_veh magazinesTurret _path);
 } forEach _turrets;*/
 
-{
-	if (_x select 0 != "FakeWeapon") then
-	{
-		_turretMags2 pushBack [_x select 0, _x select 1, _x select 2];
-	};
-} forEach magazinesAllTurrets _veh;
-
 _ammoCargo = getAmmoCargo _veh;
 _fuelCargo = getFuelCargo _veh;
 _repairCargo = getRepairCargo _veh;
@@ -143,6 +188,7 @@ _props =
 	["Damage", _damage],
 	["HitPoints", _hitPoints],
 	["OwnerUID", _owner],
+	["LockState", _locked],
 	["Variables", _variables],
 	["Textures", _textures],
 
@@ -161,7 +207,7 @@ _props =
 ];
 
 // If flying and not UAV, do not save current pos/dir/vel
-if (_flying && {getNumber (configFile >> "CfgVehicles" >> _class >> "isUav") <= 0}) then
+if (_flying && !_isUav) then
 {
 	_props deleteRange [1,3];
 };

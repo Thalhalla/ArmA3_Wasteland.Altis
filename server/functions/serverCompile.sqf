@@ -39,6 +39,11 @@ setMissionState = [_path, "setMissionState.sqf"] call mf_compile;
 //Function Compiles
 _path = "server\functions";
 A3W_fnc_checkHackedVehicles = [_path, "checkHackedVehicles.sqf"] call mf_compile;
+A3W_fnc_deleteEmptyGroup = [_path, "fn_deleteEmptyGroup.sqf"] call mf_compile;
+A3W_fnc_registerKillScore = [_path, "fn_registerKillScore.sqf"] call mf_compile;
+A3W_fnc_requestTickTime = [_path, "fn_requestTickTime.sqf"] call mf_compile;
+A3W_fnc_setItemCleanup = [_path, "fn_setItemCleanup.sqf"] call mf_compile;
+A3W_fnc_updateSpawnTimestamp = [_path, "fn_updateSpawnTimestamp.sqf"] call mf_compile;
 addMilCap = [_path, "addMilCap.sqf"] call mf_compile;
 basePartSetup = [_path, "basePartSetup.sqf"] call mf_compile;
 cleanVehicleWreck = [_path, "cleanVehicleWreck.sqf"] call mf_compile;
@@ -53,8 +58,9 @@ fn_refillBox = [_path, "fn_refillbox.sqf"] call mf_compile;
 fn_refillTruck = [_path, "fn_refilltruck.sqf"] call mf_compile;
 fn_replaceMagazines = [_path, "fn_replaceMagazines.sqf"] call mf_compile;
 fn_replaceWeapons = [_path, "fn_replaceWeapons.sqf"] call mf_compile;
-fn_selectRandomWeighted = [_path, "fn_selectRandomWeighted.sqf"] call mf_compile;
 fn_updatePlayerScore = [_path, "fn_updatePlayerScore.sqf"] call mf_compile;
+fn_vehicleGetInOutServer = [_path, "fn_vehicleGetInOutServer.sqf"] call mf_compile;
+fn_vehicleKilledServer = [_path, "fn_vehicleKilledServer.sqf"] call mf_compile;
 hintBroadcast = [_path, "hintBroadcast.sqf"] call mf_compile;
 parachuteLiftedVehicle = [_path, "parachuteLiftedVehicle.sqf"] call mf_compile;
 playerRespawnServer = [_path, "playerRespawnServer.sqf"] call mf_compile;
@@ -77,7 +83,8 @@ waitUntilBagTaken = [_path, "waitUntilBagTaken.sqf"] call mf_compile;
 weaponDisassembledServer = [_path, "weaponDisassembledServer.sqf"] call mf_compile;
 
 //Player Management
-server_playerDied = [_path, "serverPlayerDied.sqf"] call mf_compile;
+server_playerDied = [_path, "serverAiDied.sqf"] call mf_compile;
+A3W_fnc_serverPlayerDied = [_path, "serverPlayerDied.sqf"] call mf_compile;
 
 //Spawning Compiles
 _path = "server\spawning";

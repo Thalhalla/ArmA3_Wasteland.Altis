@@ -8,8 +8,8 @@
 
 if (!isServer) exitWith {};
 
-private ["_vehicle", "_class", "_getInOut", "_centerOfMass", "_weapons"];
-_vehicle = _this select 0;
+params [["_vehicle",objNull,[objNull]], ["_brandNew",true,[false]]]; // _brandNew: true for newly spawned/purchased vehicle (default), false for vehicles restored from save
+private ["_class", "_getInOut", "_centerOfMass", "_weapons"];
 _class = typeOf _vehicle;
 
 _vehicle setVariable [call vChecksum, true];
@@ -23,9 +23,14 @@ if !(_class isKindOf "AllVehicles") exitWith {}; // if not actual vehicle, finis
 clearBackpackCargoGlobal _vehicle;
 
 // Disable thermal on all manned vehicles
-if (getNumber (configFile >> "CfgVehicles" >> _class >> "isUav") < 1) then
+if (round getNumber (configFile >> "CfgVehicles" >> _class >> "isUav") < 1) then
 {
 	_vehicle disableTIEquipment true;
+};
+
+if ({_vehicle isKindOf _x} count ["StaticMGWeapon","StaticGrenadeLauncher","StaticMortar"] > 0) then
+{
+	_vehicle enableWeaponDisassembly false;
 };
 
 _vehicle setUnloadInCombat [false, false]; // Try to prevent AI from getting out of vehicles while in combat (not sure if this actually works...)
@@ -40,42 +45,21 @@ _vehicle setVariable ["A3W_handleDamageEH", _vehicle addEventHandler ["HandleDam
 _vehicle setVariable ["A3W_dammagedEH", _vehicle addEventHandler ["Dammaged", vehicleDammagedEvent]];
 _vehicle setVariable ["A3W_engineEH", _vehicle addEventHandler ["Engine", vehicleEngineEvent]];
 
-_getInOut =
-{
-	_vehicle = _this select 0;
-	_unit = _this select 2;
-
-	_unit setVariable ["lastVehicleRidden", netId _vehicle, true];
-
-	if (isPlayer _unit && owner _vehicle == owner _unit) then
-	{
-		_vehicle setVariable ["lastVehicleOwnerUID", getPlayerUID _unit, true];
-	};
-
-	_vehicle setVariable ["vehSaving_hoursUnused", 0];
-	_vehicle setVariable ["vehSaving_lastUse", diag_tickTime];
-};
-
-_vehicle addEventHandler ["GetIn", _getInOut];
-_vehicle addEventHandler ["GetOut", _getInOut];
-
-// Wreck cleanup
-_vehicle addEventHandler ["Killed",
-{
-	_veh = _this select 0;
-	_veh setVariable ["processedDeath", diag_tickTime];
-
-	if (!isNil "fn_manualVehicleDelete") then
-	{
-		[objNull, _veh getVariable "A3W_vehicleID"] call fn_manualVehicleDelete;
-		_veh setVariable ["A3W_vehicleSaved", false, false];
-	};
-}];
+_vehicle addEventHandler ["GetIn", fn_vehicleGetInOutServer];
+_vehicle addEventHandler ["GetOut", fn_vehicleGetInOutServer];
+_vehicle addEventHandler ["Killed", fn_vehicleKilledServer];
 
 if ({_class isKindOf _x} count ["Air","UGV_01_base_F"] > 0) then
 {
-	[netId _vehicle, "A3W_fnc_setupAntiExplode", true] call A3W_fnc_MP;
+	_vehicle remoteExec ["A3W_fnc_setupAntiExplode", 0, _vehicle];
 };
+
+if (_vehicle getVariable ["A3W_resupplyTruck", false] || getNumber (configFile >> "CfgVehicles" >> _class >> "transportAmmo") > 0) then
+{
+	[_vehicle] remoteExecCall ["A3W_fnc_setupResupplyTruck", 0, _vehicle];
+};
+
+[_vehicle, _brandNew] call A3W_fnc_setVehicleLoadout;
 
 // Vehicle customization
 switch (true) do
@@ -94,15 +78,26 @@ switch (true) do
 		_centerOfMass set [2, (_centerOfMass select 2) - 0.1]; // cannot be static number like SUV due to different values for each variant
 		_vehicle setCenterOfMass _centerOfMass;
 	};
-	case ({_class isKindOf _x} count ["B_Heli_Light_01_F", "B_Heli_Light_01_armed_F", "O_Heli_Light_02_unarmed_F"] > 0):
+	case (_class isKindOf "Offroad_01_repair_base_F"):
 	{
-		// Add flares to those poor helis
+		_vehicle animate ["HideServices", 0];
+	};
+	case ({_class isKindOf _x} count ["B_Heli_Light_01_F", "B_Heli_Light_01_armed_F"] > 0):
+	{
+		// Add flares to poor MH-9's
 		_vehicle addWeaponTurret ["CMFlareLauncher", [-1]];
-		_vehicle addMagazineTurret ["60Rnd_CMFlare_Chaff_Magazine", [-1]];
+
+		if (_brandNew) then
+		{
+			_vehicle addMagazineTurret ["60Rnd_CMFlare_Chaff_Magazine", [-1]];
+		};
 	};
 	case (_class isKindOf "Plane_Fighter_03_base_F"):
 	{
-		_vehicle addMagazine "300Rnd_20mm_shells";
+		if (_brandNew) then
+		{
+			_vehicle addMagazineTurret ["300Rnd_20mm_shells", [-1]];
+		};
 	};
 };
 
@@ -123,7 +118,7 @@ switch (true) do
 		_vehicle removeWeaponTurret ["CarHorn", [-1]];
 		_vehicle addWeaponTurret ["SportCarHorn", [-1]];
 	};
-	case (_class isKindOf "Truck_01_base_F");
+	case (_class isKindOf "Truck_01_base_F"):
 	{
 		// Give real truck horn to HEMTT
 		_vehicle removeWeaponTurret ["TruckHorn2", [-1]];
@@ -137,13 +132,25 @@ switch (true) do
 };
 
 // Double minigun ammo to compensate for Bohemia's incompetence (http://feedback.arma3.com/view.php?id=21613)
+if (_brandNew) then
 {
-	_path = _x;
+	{
+		_x params ["_mag", "_path"];
+
+		if (_mag select [0,5] != "Pylon" && (toLower getText (configFile >> "CfgMagazines" >> _mag >> "ammo")) find "_minigun_" != -1) then
+		{
+			_vehicle addMagazineTurret [_mag, _path];
+		};
+	} forEach magazinesAllTurrets _vehicle;
+
+	private "_magCfg";
 
 	{
-		if ((toLower getText (configFile >> "CfgMagazines" >> _x >> "ammo")) find "_minigun_" != -1) then
+		_magCfg = configFile >> "CfgMagazines" >> _x;
+
+		if ((toLower getText (_magCfg >> "ammo")) find "_minigun_" != -1) then
 		{
-			_vehicle addMagazineTurret [_x, _path];
+			_vehicle setAmmoOnPylon [_forEachIndex + 1, 2 * getNumber (_magCfg >> "count")];
 		};
-	} forEach (_vehicle magazinesTurret _path);
-} forEach ([[-1]] + allTurrets [_vehicle, false]);
+	} forEach getPylonMagazines _vehicle;
+};

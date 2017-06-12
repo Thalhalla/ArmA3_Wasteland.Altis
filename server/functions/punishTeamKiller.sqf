@@ -4,17 +4,20 @@
 //	@file Name: punishTeamKiller.sqf
 //	@file Author: AgentRev
 
-private ["_player", "_uid", "_nbTKs"];
-_player = param [0, objNull, [objNull]];
-_uid = param [1, "0", [""]];
+params [["_player",objNull,[objNull]], ["_UID","0",[""]]];
 
-if (_uid == "") exitWith {};
+if (_UID in ["","0"]) exitWith {};
 
-_nbTKs = ([pvar_teamKillList, _uid, 0] call fn_getFromPairs) + 1;
-[pvar_teamKillList, _uid, _nbTKs] call fn_setToPairs;
+private _nbTKs = ([pvar_teamKillList, _UID, 0] call fn_getFromPairs) + 1;
+[pvar_teamKillList, _UID, _nbTKs] call fn_setToPairs;
 publicVariable "pvar_teamKillList";
 
-if (!isPlayer _player) exitWith {};
+if (getPlayerUID _player != _UID) then
+{
+	_player = (allPlayers select {getPlayerUID _x isEqualTo _UID}) param [0, _player];
+};
+
+if (getPlayerUID _player != _UID) exitWith {};
 
 pvar_warnTeamKiller = _nbTKs;
 (owner _player) publicVariableClient "pvar_warnTeamKiller";
